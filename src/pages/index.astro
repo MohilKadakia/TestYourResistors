@@ -3,14 +3,24 @@ import Button from '../components/Button.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
+<script>
+	function showModal() {
+		console.log("hi");
+	}
+</script>
+
 <Layout title="Test your Resistors">
 	<main>
 		<h1>Test your Resistors</h1>
 		<p>A simple game to test your resistor knowledge</p>
 		<ul role="list" class="link-card-grid">
-			<Button href="/" title="Start" />
-			<Button href="/" title="Options" />
+			<Button href="/game" title="Start" />
+			<Button id="options" title="Options" />
 		</ul>
+
+		<dialog id="options-modal">
+			<h1>hi</h1>
+		</dialog>
 	</main>
 </Layout>
 
@@ -31,7 +41,7 @@ import Layout from '../layouts/Layout.astro';
 		grid-template-columns: repeat(auto-fit, 25%);
 		gap: 1rem;
 		padding: 0;
-		margin-top: 4rem;
+		margin: 3rem 0;
 		justify-content: center;
 	}
 </style>

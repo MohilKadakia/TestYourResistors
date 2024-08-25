@@ -1,19 +1,32 @@
 ---
 interface Props {
 	title: string;
-	href: string;
+	id?: string;
+	href?: string;
 }
 
-const { href, title } = Astro.props;
+const { href, id, title } = Astro.props;
 ---
 
-<li class="link-card">
+<li class="link-card" id={id}>
 	<a href={href}>
 		<h2>
 			{title}
 		</h2>
 	</a>
 </li>
+
+{() => {
+	if(id) {
+		return (
+			<script define:vars={{ id }} type="module">
+				document.getElementById(id).addEventListener("click", () => {
+					document.getElementById("options-modal").showModal();
+				})
+			</script>
+		)
+	}
+}}
 <style>
 	.link-card {
 		list-style: none;
