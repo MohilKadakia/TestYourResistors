@@ -32,8 +32,6 @@ const { bands, ohms, tolerance } = Astro.props;
 		"10%": "#c0c0c0", 
 	}
 
-	console.log(bands, ohms, tolerance)
-
 	if(bands == "3") {
 		let num_ohms = Math.round(Number(ohms)/Math.pow(10, (ohms.length-2))).toString();
 		document.getElementById("one").style.background = RES_BANDS[Number(num_ohms[0])];
