@@ -1,0 +1,105 @@
+---
+interface Props {
+	bands: string;
+	ohms: string;
+	tolerance: string;
+}
+
+const { bands, ohms, tolerance } = Astro.props;
+---
+
+<div id="resistor">
+	<img src="/resistor.svg" />
+	<div class="band" id="one"/>
+	<div class="band" id="two"/>
+	<div class="band" id="three"/>
+	<div class="band" id="four"/>
+	<div class="band" id="tolerance"/>
+</div>
+
+<script define:vars={{ bands, ohms, tolerance }} type="module">
+	const res_bands = ["#000000", "#964b00", "#ff0000", "#ffa500", "#ffff00", "#9acd32", "#6495ed", "#9400d3", "#a0a0a0", "#ffffff"]
+	const tol_bands = {
+		"1%": "#964b00", 
+		"2%": "#ff0000", 
+		"0.05%": "#ffa500", 
+		"0.02%": "#ffff00", 
+		"0.5%": "#9acd32", 
+		"0.25%": "#6495ed", 
+		"0.1%": "#9400d3", 
+		"0.01%": "#a0a0a0",
+		"5%": "#cfb53b", 
+		"10%": "#c0c0c0", 
+	}
+
+
+	if(bands == "3") {
+		let num_ohms = Math.round(Number(ohms)/Math.pow(10, (ohms.length-2))).toString();
+		document.getElementById("one").style.background = res_bands[Number(num_ohms[0])];
+		document.getElementById("two").style.background = res_bands[Number(num_ohms[1])];
+		document.getElementById("three").style.background = res_bands[Number((ohms.length-2))];
+	}
+	else if(bands == "4") {
+		let num_ohms = Math.round(Number(ohms)/Math.pow(10, (ohms.length-2))).toString();
+		document.getElementById("one").style.background = res_bands[Number(num_ohms[0])];
+		document.getElementById("two").style.background = res_bands[Number(num_ohms[1])];
+		document.getElementById("three").style.background = res_bands[Number((ohms.length-2))];
+		document.getElementById("tolerance").style.background = tol_bands[tolerance];
+	}
+	else if(bands == "5") {
+		let num_ohms = Math.round(Number(ohms)/Math.pow(10, (ohms.length-3))).toString();
+		document.getElementById("one").style.background = res_bands[Number(num_ohms[0])];
+		document.getElementById("two").style.background = res_bands[Number(num_ohms[1])];
+		document.getElementById("three").style.background = res_bands[Number(num_ohms[2])];
+		document.getElementById("four").style.background = res_bands[Number((ohms.length-2))];
+		document.getElementById("tolerance").style.background = tol_bands[tolerance];
+	}
+</script>
+
+<style>
+	#resistor {
+		position: relative;
+		width: max-content;
+	}
+
+	#resistor img {
+		max-width: 100%;
+	}
+	
+	.band {
+		width: 24px;
+		background-color: transparent;
+		display: inline-block;
+		position: absolute;
+	}
+
+	#one {
+		top: 0;
+		bottom: 3%;
+		left: 20%;
+	}
+
+	#two {
+		top: 5%;
+		bottom: 9%;
+		left: 30%;
+	}
+
+	#three {
+		top: 5%;
+		bottom: 9%;
+		left: 37.5%;
+	}
+
+	#four {
+		top: 5%;
+		bottom: 9%;
+		left: 45%;
+	}
+
+	#tolerance {
+		top: 0;
+		bottom: 3%;
+		left: 75%;
+	}
+</style>
