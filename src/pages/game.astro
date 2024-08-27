@@ -1,20 +1,67 @@
 ---
 import Resistor from '../components/Resistor.astro';
 import Layout from '../layouts/Layout.astro';
+
+const BANDS = (Math.round(Math.random()*2)+3).toString()
+const RESISTANCE = (Math.round(Math.random()*Math.pow(10, 9))).toString()
+const TOLERANCE = ["1%", "2%", "0.05%", "0.02%", "0.5%", "0.25%", "0.1%", "0.01%", "5%", "10%"][Math.round(Math.random()*10)]
 ---
 
 <Layout title="Test your Resistors">
 	<main>
 		<div id="resistor-holder">
 			<Resistor 
-				bands={(Math.round(Math.random()*2)+3).toString()} 
-				ohms={(Math.round(Math.random()*Math.pow(10, 9))).toString()} 
-				tolerance={["1%", "2%", "0.05%", "0.02%", "0.5%", "0.25%", "0.1%", "0.01%", "5%", "10%"][Math.round(Math.random()*10)]}
+				bands={BANDS} 
+				ohms={RESISTANCE} 
+				tolerance={TOLERANCE}
 			/>
 		</div>
-		<label><input type="number" placeholder="Resistance"/></label>
+		<div id="resistance-input-holder">
+			<label><input id="resistance-input" placeholder="Resistance" pattern="^[0-9.]+[0-9kKmMgG]?$"/>Ω</label>
+			<button class="resistance-button" id="resistance-submit">Submit</button>
+			<!-- <dialog id="resistance-input-error">Invalid Input</dialog> -->
+		</div>
+		<button class="resistance-button" id="resistance-escape">Give Up</button>
+		<button class="resistance-button" id="resistance-next">Go Next</button>
 	</main>
 </Layout>
+
+<script define:vars={{ BANDS, RESISTANCE }} type="module">
+	document.getElementById("resistance-submit").addEventListener("click", () => {
+		let resistanceAnswer = 0;
+		if(BANDS == "3" || BANDS == "4") {
+			resistanceAnswer = (Math.round(Number(RESISTANCE)/Math.pow(10, (RESISTANCE.length-2)))*Math.pow(10, (RESISTANCE.length-2))).toString();
+		} else if(BANDS == "5") {
+			resistanceAnswer = (Math.round(Number(RESISTANCE)/Math.pow(10, (RESISTANCE.length-3)))*Math.pow(10, (RESISTANCE.length-3))).toString();
+		}
+
+		let userInput = document.getElementById("resistance-input").value;
+		let finalUserValue = 0; 
+		if(userInput.match("^[0-9.]+[0-9kKmMgG]?$")) {
+			if(!userInput.slice(-1).match([0-9])) {
+				let userMultiplier = userInput.slice(-1).toLowerCase();
+				const suffixToMultiplier = {
+					"k": Math.pow(10,3),
+					"m": Math.pow(10,6),
+					"g": Math.pow(10,9),
+				}
+				userInput = userInput.slice(0, -1);
+				finalUserValue = (Number(userInput)*suffixToMultiplier[userMultiplier]);
+			} else {
+				finalUserValue = number(userInput);
+			}
+
+			if(finalUserValue != resistanceAnswer) {
+				document.getElementById("resistance-input").classList.add("incorrect")
+				document.getElementById("resistance-input").classList.remove("correct")
+			} else {
+				document.getElementById("resistance-input").classList.add("correct")
+				document.getElementById("resistance-input").classList.remove("incorrect")
+			}
+			console.log(finalUserValue, resistanceAnswer)
+		}
+	})
+</script>
 
 <style>
 	main {
@@ -26,9 +73,91 @@ import Layout from '../layouts/Layout.astro';
 		font-size: 20px;
 		line-height: 1.6;
 		text-align: center;
+		justify-content: center;
+		align-items: center;
 	}
 
 	#resistor-holder {
 		width: max-content;
+		margin: auto;
+	}
+
+	#resistance-input {
+		height: 24px;
+		width: 120px;
+		font-size: 18px;
+		margin-right: 4px;
+		text-align: right;
+	}
+
+	#resistance-input:invalid {
+		border-color: red;
+	}
+
+	.resistance-button {
+		margin: 0;
+		padding: 0;
+		width: 96px;
+		height: 32px;
+		font-size: 18px;
+		border: none;
+		border-radius: 8px;
+		transition: background-color 100ms ease-in-out;
+		cursor: pointer;
+	}
+
+	#resistance-submit {
+		background-color: rgb(228, 228, 228);
+	}
+
+	#resistance-submit:hover {
+		background-color: rgb(200, 200, 200);
+	}
+
+	#resistance-submit:active {
+		background-color: rgb(180, 180, 180);
+	}
+	
+	#resistance-escape {
+		background-color: rgb(255, 215, 215);
+	}
+
+	#resistance-escape:hover {
+		background-color: rgb(255, 200, 200);
+	}
+
+	#resistance-escape:active {
+		background-color: rgb(255, 180, 180);
+	}
+
+	#resistance-next {
+		background-color: rgb(215, 255, 228);
+	}
+
+	#resistance-next:hover {
+		background-color: rgb(200, 255, 200);
+	}
+
+	#resistance-next:active {
+		background-color: rgb(180, 255, 180);
+	}
+
+	#resistance-input-holder {
+		display: flex;
+		justify-content: center;
+	}
+
+	#resistance-input-holder label {
+		margin-right: 8px;
+	}
+
+	.correct {
+		background-color: rgb(172, 226, 172);
+		border-color: greenyellow;
+	}
+
+	.incorrect {
+		background-color: rgb(240, 180, 180);
+		border-color: red;
 	}
 </style>
