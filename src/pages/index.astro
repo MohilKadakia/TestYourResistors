@@ -3,26 +3,68 @@ import Button from '../components/Button.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
-<script>
-	function showModal() {
-		console.log("hi");
-	}
-</script>
-
 <Layout title="Test your Resistors">
 	<main>
 		<h1>Test your Resistors</h1>
 		<p>A simple game to test your resistor knowledge</p>
 		<ul role="list" class="link-card-grid">
 			<Button href="/game" title="Start" />
-			<Button id="options" title="Options" />
+			<Button href="#" id="options" title="Options" />
 		</ul>
 
 		<dialog id="options-modal">
-			<h1>hi</h1>
+			<div id="holder">
+				<button id="close-button" onclick="document.getElementById('options-modal').close()">&#10006;</button>
+				<h1 id="title">Options:</h1>
+				<div>
+					<h2 id="subtitle">Include</h2>
+					<div id="chosen-bands">
+						<label><input type="checkbox" id="3band"/>3 Band</label>
+						<label><input type="checkbox" id="4band"/>4 Band</label>
+						<label><input type="checkbox" id="5band"/>5 Band</label>
+						<label><input type="checkbox" id="6band"/>6 Band</label>
+					</div>
+				</div>
+			</div>
 		</dialog>
 	</main>
 </Layout>
+
+<script type="module">
+	const settings_input = document.querySelectorAll('input');
+	settings_input.forEach((input) => {
+    input.addEventListener('click', () => updateSettings());
+  });
+
+	function updateSettings() {
+		let settings = {
+			"3band": document.getElementById("3band").checked,
+			"4band": document.getElementById("4band").checked,
+			"5band": document.getElementById("5band").checked,
+			"6band": document.getElementById("6band").checked,
+		}
+		localStorage.setItem("settings", JSON.stringify(settings))
+	}
+</script>
+
+<script>
+	const userSettings = localStorage.getItem("settings");
+	if (userSettings) {
+		let settings = JSON.parse(userSettings);
+		for(let i in settings) {
+			(document.getElementById(i) as HTMLInputElement).checked = settings[i];
+		}
+	}
+	else {
+		let settings = {
+			"3band": true,
+			"4band": true,
+			"5band": false,
+			"6band": true,
+		}
+		localStorage.setItem("settings", JSON.stringify(settings))
+	}
+</script>
 
 <style>
 	main {
@@ -44,4 +86,81 @@ import Layout from '../layouts/Layout.astro';
 		margin: 3rem 0;
 		justify-content: center;
 	}
+
+	#options-modal {
+		position: relative;
+		width: 30%;
+		min-width: 400px;
+		height: 30%;
+		background-color: #1d2027;
+		color: white;
+		border: none;
+	}
+
+	#options-modal[open] {
+		animation: fadeIn 150ms ease-in-out normal;
+		pointer-events: revert;
+	}
+
+	#options-modal #holder {
+		display: grid;
+		grid-template-rows: 60px auto;
+		grid-template-columns: 100%;
+	}
+
+	#options-modal #close-button {
+		width: 48px;
+		height: 48px;
+		background-color: transparent;
+		border: none;
+		font-size: 24px;
+		position: absolute;
+		top: 0;
+		right: 0;
+		color: white;
+	}
+
+	#options-modal #title {
+		grid-column: 1 / span 2;
+		grid-row: 1 / 1;
+		margin: 0;
+		padding: 0;
+	}
+
+	#options-modal #subtitle {
+		margin: 0;
+		margin-top: 24px;
+	}
+
+	#chosen-bands {
+		display: block;
+		align-items: center;
+	}
+
+	#chosen-bands label {
+		display: block;
+		width: fit-content;
+		height: 12px;
+		vertical-align: middle;
+		padding-bottom: 14px;
+		margin: auto;
+		user-select: none;
+	}
+
+	#chosen-bands label input {
+		margin-right: 8px;
+		height: 16px;
+	}
+
+	@keyframes fadeIn{
+    from {
+      opacity: 0;
+			transform: translateY(-3%);
+    }
+    to {
+      opacity: 1;
+			transform: translateY(0%);
+    }
+  }
+
 </style>
