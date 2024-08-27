@@ -22,7 +22,6 @@ import Layout from '../layouts/Layout.astro';
 						<label><input type="checkbox" id="3band"/>3 Band</label>
 						<label><input type="checkbox" id="4band"/>4 Band</label>
 						<label><input type="checkbox" id="5band"/>5 Band</label>
-						<label><input type="checkbox" id="6band"/>6 Band</label>
 					</div>
 				</div>
 			</div>
@@ -41,7 +40,6 @@ import Layout from '../layouts/Layout.astro';
 			"3band": document.getElementById("3band").checked,
 			"4band": document.getElementById("4band").checked,
 			"5band": document.getElementById("5band").checked,
-			"6band": document.getElementById("6band").checked,
 		}
 		localStorage.setItem("settings", JSON.stringify(settings))
 	}
@@ -60,7 +58,6 @@ import Layout from '../layouts/Layout.astro';
 			"3band": true,
 			"4band": true,
 			"5band": false,
-			"6band": true,
 		}
 		localStorage.setItem("settings", JSON.stringify(settings))
 	}
