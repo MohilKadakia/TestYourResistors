@@ -18,8 +18,8 @@ const { bands, ohms, tolerance } = Astro.props;
 </div>
 
 <script define:vars={{ bands, ohms, tolerance }} type="module">
-	const res_bands = ["#000000", "#964b00", "#ff0000", "#ffa500", "#ffff00", "#9acd32", "#6495ed", "#9400d3", "#a0a0a0", "#ffffff"]
-	const tol_bands = {
+	const RES_BANDS = ["#000000", "#964b00", "#ff0000", "#ffa500", "#ffff00", "#9acd32", "#6495ed", "#9400d3", "#a0a0a0", "#ffffff"]
+	const TOL_BANDS = {
 		"1%": "#964b00", 
 		"2%": "#ff0000", 
 		"0.05%": "#ffa500", 
@@ -32,27 +32,28 @@ const { bands, ohms, tolerance } = Astro.props;
 		"10%": "#c0c0c0", 
 	}
 
+	console.log(bands, ohms, tolerance)
 
 	if(bands == "3") {
 		let num_ohms = Math.round(Number(ohms)/Math.pow(10, (ohms.length-2))).toString();
-		document.getElementById("one").style.background = res_bands[Number(num_ohms[0])];
-		document.getElementById("two").style.background = res_bands[Number(num_ohms[1])];
-		document.getElementById("three").style.background = res_bands[Number((ohms.length-2))];
+		document.getElementById("one").style.background = RES_BANDS[Number(num_ohms[0])];
+		document.getElementById("two").style.background = RES_BANDS[Number(num_ohms[1])];
+		document.getElementById("three").style.background = RES_BANDS[Number((ohms.length-2))];
 	}
 	else if(bands == "4") {
 		let num_ohms = Math.round(Number(ohms)/Math.pow(10, (ohms.length-2))).toString();
-		document.getElementById("one").style.background = res_bands[Number(num_ohms[0])];
-		document.getElementById("two").style.background = res_bands[Number(num_ohms[1])];
-		document.getElementById("three").style.background = res_bands[Number((ohms.length-2))];
-		document.getElementById("tolerance").style.background = tol_bands[tolerance];
+		document.getElementById("one").style.background = RES_BANDS[Number(num_ohms[0])];
+		document.getElementById("two").style.background = RES_BANDS[Number(num_ohms[1])];
+		document.getElementById("three").style.background = RES_BANDS[Number((ohms.length-2))];
+		document.getElementById("tolerance").style.background = TOL_BANDS[tolerance];
 	}
 	else if(bands == "5") {
 		let num_ohms = Math.round(Number(ohms)/Math.pow(10, (ohms.length-3))).toString();
-		document.getElementById("one").style.background = res_bands[Number(num_ohms[0])];
-		document.getElementById("two").style.background = res_bands[Number(num_ohms[1])];
-		document.getElementById("three").style.background = res_bands[Number(num_ohms[2])];
-		document.getElementById("four").style.background = res_bands[Number((ohms.length-2))];
-		document.getElementById("tolerance").style.background = tol_bands[tolerance];
+		document.getElementById("one").style.background = RES_BANDS[Number(num_ohms[0])];
+		document.getElementById("two").style.background = RES_BANDS[Number(num_ohms[1])];
+		document.getElementById("three").style.background = RES_BANDS[Number(num_ohms[2])];
+		document.getElementById("four").style.background = RES_BANDS[Number((ohms.length-2))];
+		document.getElementById("tolerance").style.background = TOL_BANDS[tolerance];
 	}
 </script>
 
@@ -60,10 +61,12 @@ const { bands, ohms, tolerance } = Astro.props;
 	#resistor {
 		position: relative;
 		width: max-content;
+		user-select: none;
 	}
 
 	#resistor img {
 		max-width: 100%;
+		user-select: none;
 	}
 	
 	.band {
