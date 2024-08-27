@@ -5,10 +5,30 @@ import Layout from '../layouts/Layout.astro';
 const BANDS = (Math.round(Math.random()*2)+3).toString()
 const RESISTANCE = (Math.round(Math.random()*Math.pow(10, 9))).toString()
 const TOLERANCE = ["1%", "2%", "0.05%", "0.02%", "0.5%", "0.25%", "0.1%", "0.01%", "5%", "10%"][Math.round(Math.random()*10)]
+
+let resistanceAnswer = 0;
+if(BANDS == "3" || BANDS == "4") {
+	resistanceAnswer = (Math.round(Number(RESISTANCE)/Math.pow(10, (RESISTANCE.length-2)))*Math.pow(10, (RESISTANCE.length-2)));
+} else if(BANDS == "5") {
+	resistanceAnswer = (Math.round(Number(RESISTANCE)/Math.pow(10, (RESISTANCE.length-3)))*Math.pow(10, (RESISTANCE.length-3)));
+}
+
+let shortenedResistance = "";
+let resistanceAnswerLen = resistanceAnswer.toString().length
+if(resistanceAnswerLen > 3 && resistanceAnswerLen <= 6) {
+	shortenedResistance = resistanceAnswer/1000 + "k"
+} else if(resistanceAnswerLen > 6 && resistanceAnswerLen <= 9) {
+	shortenedResistance = resistanceAnswer/1000000 + "M"
+} else if(resistanceAnswerLen > 9) {
+	shortenedResistance = resistanceAnswer/1000000000 + "G"
+}
 ---
 
 <Layout title="Test your Resistors">
 	<main>
+		<a href="/">
+			<img id="home-button" src="home.svg"/>
+		</a>
 		<div id="resistor-holder">
 			<Resistor 
 				bands={BANDS} 
@@ -19,15 +39,31 @@ const TOLERANCE = ["1%", "2%", "0.05%", "0.02%", "0.5%", "0.25%", "0.1%", "0.01%
 		<div id="resistance-input-holder">
 			<label><input id="resistance-input" placeholder="Resistance" pattern="^[0-9.]+[0-9kKmMgG]?$"/>Ω</label>
 			<button class="resistance-button" id="resistance-submit">Submit</button>
-			<!-- <dialog id="resistance-input-error">Invalid Input</dialog> -->
 		</div>
-		<button class="resistance-button" id="resistance-escape">Give Up</button>
-		<button class="resistance-button" id="resistance-next">Go Next</button>
+		<div id="resistance-extra-buttons">
+			<button class="resistance-button" id="resistance-escape">Give Up</button>
+			<dialog id="resistance-input-error">The resistance is {shortenedResistance}Ωs</dialog>
+			<a href="/game">
+				<button class="resistance-button" id="resistance-next">Go Next</button>
+			</a>
+		</div>
 	</main>
 </Layout>
 
 <script define:vars={{ BANDS, RESISTANCE }} type="module">
-	document.getElementById("resistance-submit").addEventListener("click", () => {
+	document.getElementById("resistance-escape").addEventListener("click", giveUp)
+	
+	function giveUp() {
+		document.getElementById("resistance-input-error").show();
+		document.getElementById("resistance-input").classList.add("incorrect");
+		document.getElementById("resistance-input").classList.remove("correct");
+
+		document.getElementById("resistance-submit").removeEventListener("click", submitAnswer);
+	}
+
+	document.getElementById("resistance-submit").addEventListener("click", submitAnswer)
+	
+	function submitAnswer() {
 		let resistanceAnswer = 0;
 		if(BANDS == "3" || BANDS == "4") {
 			resistanceAnswer = (Math.round(Number(RESISTANCE)/Math.pow(10, (RESISTANCE.length-2)))*Math.pow(10, (RESISTANCE.length-2))).toString();
@@ -55,12 +91,15 @@ const TOLERANCE = ["1%", "2%", "0.05%", "0.02%", "0.5%", "0.25%", "0.1%", "0.01%
 				document.getElementById("resistance-input").classList.add("incorrect")
 				document.getElementById("resistance-input").classList.remove("correct")
 			} else {
+				document.getElementById("resistance-escape").removeEventListener("click", giveUp);
 				document.getElementById("resistance-input").classList.add("correct")
 				document.getElementById("resistance-input").classList.remove("incorrect")
 			}
-			console.log(finalUserValue, resistanceAnswer)
+		} else {
+			document.getElementById("resistance-input").classList.remove("correct")
+			document.getElementById("resistance-input").classList.remove("incorrect")
 		}
-	})
+	}
 </script>
 
 <style>
@@ -77,6 +116,14 @@ const TOLERANCE = ["1%", "2%", "0.05%", "0.02%", "0.5%", "0.25%", "0.1%", "0.01%
 		align-items: center;
 	}
 
+	#home-button {
+		width: 4%;
+		height: auto;
+		position: absolute;
+		top: 2%;
+		left: 2%;
+	}
+
 	#resistor-holder {
 		width: max-content;
 		margin: auto;
@@ -88,6 +135,8 @@ const TOLERANCE = ["1%", "2%", "0.05%", "0.02%", "0.5%", "0.25%", "0.1%", "0.01%
 		font-size: 18px;
 		margin-right: 4px;
 		text-align: right;
+		font-family: system-ui, sans-serif;
+		font-weight: 600;
 	}
 
 	#resistance-input:invalid {
@@ -104,6 +153,8 @@ const TOLERANCE = ["1%", "2%", "0.05%", "0.02%", "0.5%", "0.25%", "0.1%", "0.01%
 		border-radius: 8px;
 		transition: background-color 100ms ease-in-out;
 		cursor: pointer;
+		font-family: system-ui, sans-serif;
+		font-weight: 600;
 	}
 
 	#resistance-submit {
@@ -159,5 +210,9 @@ const TOLERANCE = ["1%", "2%", "0.05%", "0.02%", "0.5%", "0.25%", "0.1%", "0.01%
 	.incorrect {
 		background-color: rgb(240, 180, 180);
 		border-color: red;
+	}
+
+	#resistance-extra-buttons {
+		margin-top: 24px;
 	}
 </style>
