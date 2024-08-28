@@ -147,59 +147,62 @@ if(resistanceAnswerLen > 3 && resistanceAnswerLen <= 6) {
 		margin: 0;
 		padding: 0;
 		width: 96px;
-		height: 32px;
+		height: 48px;
 		font-size: 18px;
 		border: none;
-		border-radius: 8px;
+		border-radius: 5px;
 		transition: background-color 100ms ease-in-out;
 		cursor: pointer;
 		font-family: system-ui, sans-serif;
 		font-weight: 600;
+		color: white;
 	}
 
 	#resistance-submit {
-		background-color: rgb(228, 228, 228);
+		background-color: rgb(35, 38, 45);
 	}
 
 	#resistance-submit:hover {
-		background-color: rgb(200, 200, 200);
+		background-color: rgb(57, 67, 86);
 	}
 
 	#resistance-submit:active {
-		background-color: rgb(180, 180, 180);
+		background-color: #303644;
 	}
 	
 	#resistance-escape {
-		background-color: rgb(255, 215, 215);
+		background-color: #dd5444;
 	}
 
 	#resistance-escape:hover {
-		background-color: rgb(255, 200, 200);
+		background-color: #e85d55;
 	}
 
 	#resistance-escape:active {
-		background-color: rgb(255, 180, 180);
+		background-color: #e24848;
 	}
 
 	#resistance-next {
-		background-color: rgb(215, 255, 228);
+		background-color: #77dd44;
 	}
 
 	#resistance-next:hover {
-		background-color: rgb(200, 255, 200);
+		background-color: #86e855;
 	}
 
 	#resistance-next:active {
-		background-color: rgb(180, 255, 180);
+		background-color: #7ce248;
 	}
 
 	#resistance-input-holder {
 		display: flex;
 		justify-content: center;
+		align-items: center;
 	}
 
 	#resistance-input-holder label {
 		margin-right: 8px;
+		height: max-content;
 	}
 
 	.correct {
