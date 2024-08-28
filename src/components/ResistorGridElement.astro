@@ -58,4 +58,16 @@ const { color, colorName, bandfigure, multiplier, tolerance } = Astro.props;
 	#color-holder p {
 		width: 58px;
 	}
+
+	@media only screen and (max-width: 600px) {
+		#color {
+			width: 18px;
+			height: 18px;
+			margin-right: 4px;
+		}
+
+		#color-holder p {
+			width: 48px;
+		}
+	}
 </style>

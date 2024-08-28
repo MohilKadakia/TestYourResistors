@@ -61,7 +61,7 @@ import Layout from '../layouts/Layout.astro';
 
 	.link-card-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, 25%);
+		grid-template-columns: repeat(2, 25%);
 		gap: 1rem;
 		padding: 0;
 		margin: 3rem 0;
@@ -145,5 +145,21 @@ import Layout from '../layouts/Layout.astro';
 
 	.res-row div:last-child {
 		border-right: 0px;
+	}
+
+	@media only screen and (max-width: 600px) {
+		.link-card-grid {
+			grid-template-columns: 50%;
+			grid-template-rows: repeat(2, 100px);
+		}
+
+		#grid-array {
+			grid-template-rows: 64px repeat(12, 48px);
+			font-size: 16px;
+		}
+
+		#htp-modal {
+			height: 80%;
+		}
 	}
 </style>
