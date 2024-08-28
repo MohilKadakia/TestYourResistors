@@ -17,7 +17,7 @@ const { bands, ohms, tolerance } = Astro.props;
 	<div class="band" id="tolerance"/>
 </div>
 
-<script define:vars={{ bands, ohms, tolerance }} type="module">
+<script is:inline define:vars={{ bands, ohms, tolerance }} type="module">
 	const RES_BANDS = ["#000000", "#964b00", "#ff0000", "#ffa500", "#ffff00", "#9acd32", "#6495ed", "#9400d3", "#a0a0a0", "#ffffff"]
 	const TOL_BANDS = {
 		"1%": "#964b00", 

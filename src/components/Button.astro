@@ -19,7 +19,7 @@ const { href, id, title } = Astro.props;
 {() => {
 	if(id) {
 		return (
-			<script define:vars={{ id }} type="module">
+			<script is:inline define:vars={{ id }} type="module">
 				document.getElementById(id).addEventListener("click", () => {
 					document.getElementById("htp-modal").showModal();
 				})

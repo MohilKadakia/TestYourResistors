@@ -50,7 +50,7 @@ if(resistanceAnswerLen > 3 && resistanceAnswerLen <= 6) {
 	</main>
 </Layout>
 
-<script define:vars={{ BANDS, RESISTANCE }} type="module">
+<script is:inline define:vars={{ BANDS, RESISTANCE }} type="module">
 	document.getElementById("resistance-escape").addEventListener("click", giveUp)
 	
 	function giveUp() {
