@@ -1,6 +1,8 @@
 # TestYourResistors
 ### A simple game made to test your resistor knowledge
 
+![Showcase of the Game](https://raw.githubusercontent.com/lbcmk/TestYourResistors/main/public/card.png)
+
 ## Why?
 I used this project as an opportunity to combine learning the resistor color codes with Astro. I have made most of my sites in Vanilla JS, ReactJS, or NextJS, so I wanted to learn a new framework by completing a simple project such as this.
 
