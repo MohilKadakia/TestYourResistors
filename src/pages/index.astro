@@ -1,5 +1,6 @@
 ---
 import Button from '../components/Button.astro';
+import ResistorGridElement from '../components/ResistorGridElement.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
@@ -9,59 +10,42 @@ import Layout from '../layouts/Layout.astro';
 		<p>A simple game to test your resistor knowledge</p>
 		<ul role="list" class="link-card-grid">
 			<Button href="/game" title="Start" />
-			<Button href="#" id="options" title="Options" />
+			<Button href="#" id="htp" title="How to Play" />
 		</ul>
 
-		<dialog id="options-modal">
+		<dialog id="htp-modal">
 			<div id="holder">
-				<button id="close-button" onclick="document.getElementById('options-modal').close()">&#10006;</button>
-				<h1 id="title">Options:</h1>
+				<button id="close-button" onclick="document.getElementById('htp-modal').close()">&#10006;</button>
+				<h1 id="title">How to Play:</h1>
 				<div>
-					<h2 id="subtitle">Include</h2>
-					<div id="chosen-bands">
-						<label><input type="checkbox" id="3band"/>3 Band</label>
-						<label><input type="checkbox" id="4band"/>4 Band</label>
-						<label><input type="checkbox" id="5band"/>5 Band</label>
-					</div>
+					Read the resistor and guess the resistor's value
+					<br>
+					From: <a href="https://www.calculator.net/resistor-calculator.html">https://www.calculator.net/resistor-calculator.html</a>
+					<ul id="grid-array">
+						<li class="res-row">
+							<div>Color</div>
+							<div>Significant Digits</div>
+							<div>Multiplier</div>
+							<div>Tolerance</div>
+						</li>
+						<ResistorGridElement color="#000000" colorName='Black' bandfigure='0' multiplier='x1' tolerance='' />
+						<ResistorGridElement color="#964b00" colorName='Brown' bandfigure='1' multiplier='x10' tolerance='±1%' />
+						<ResistorGridElement color="#ff0000" colorName='Red' bandfigure='2' multiplier='x100' tolerance='±2%' />
+						<ResistorGridElement color="#ffa500" colorName='Orange' bandfigure='3' multiplier='x1k' tolerance='±0.05%' />
+						<ResistorGridElement color="#ffff00" colorName='Yellow' bandfigure='4' multiplier='x10k' tolerance='±0.02%' />
+						<ResistorGridElement color="#9acd32" colorName='Green' bandfigure='5' multiplier='x100k' tolerance='±0.5%' />
+						<ResistorGridElement color="#6495ed" colorName='Blue' bandfigure='6' multiplier='x1M' tolerance='±0.25%' />
+						<ResistorGridElement color="#9400d3" colorName='Purple' bandfigure='7' multiplier='x10M' tolerance='±0.1%' />
+						<ResistorGridElement color="#a0a0a0" colorName='Grey' bandfigure='8' multiplier='x100M' tolerance='±0.01%' />
+						<ResistorGridElement color="#ffffff" colorName='White' bandfigure='9' multiplier='x1G' tolerance='' />
+						<ResistorGridElement color="#cfb53b" colorName='Gold' bandfigure='' multiplier='x0.1' tolerance='±5%' />
+						<ResistorGridElement color="#c0c0c0" colorName='Silver' bandfigure='' multiplier='x0.01' tolerance='±10%' />
+					</ul>
 				</div>
 			</div>
 		</dialog>
 	</main>
 </Layout>
-
-<script type="module">
-	const settings_input = document.querySelectorAll('input');
-	settings_input.forEach((input) => {
-    input.addEventListener('click', () => updateSettings());
-  });
-
-	function updateSettings() {
-		let settings = {
-			"3band": document.getElementById("3band").checked,
-			"4band": document.getElementById("4band").checked,
-			"5band": document.getElementById("5band").checked,
-		}
-		localStorage.setItem("settings", JSON.stringify(settings))
-	}
-</script>
-
-<script>
-	const userSettings = localStorage.getItem("settings");
-	if (userSettings) {
-		let settings = JSON.parse(userSettings);
-		for(let i in settings) {
-			(document.getElementById(i) as HTMLInputElement).checked = settings[i];
-		}
-	}
-	else {
-		let settings = {
-			"3band": true,
-			"4band": true,
-			"5band": false,
-		}
-		localStorage.setItem("settings", JSON.stringify(settings))
-	}
-</script>
 
 <style>
 	main {
@@ -84,28 +68,28 @@ import Layout from '../layouts/Layout.astro';
 		justify-content: center;
 	}
 
-	#options-modal {
+	#htp-modal {
 		position: relative;
-		width: 30%;
+		width: 50%;
 		min-width: 400px;
-		height: 30%;
+		height: 50%;
 		background-color: #1d2027;
 		color: white;
 		border: none;
 	}
 
-	#options-modal[open] {
+	#htp-modal[open] {
 		animation: fadeIn 150ms ease-in-out normal;
 		pointer-events: revert;
 	}
 
-	#options-modal #holder {
+	#htp-modal #holder {
 		display: grid;
 		grid-template-rows: 60px auto;
 		grid-template-columns: 100%;
 	}
 
-	#options-modal #close-button {
+	#htp-modal #close-button {
 		width: 48px;
 		height: 48px;
 		background-color: transparent;
@@ -117,36 +101,11 @@ import Layout from '../layouts/Layout.astro';
 		color: white;
 	}
 
-	#options-modal #title {
+	#htp-modal #title {
 		grid-column: 1 / span 2;
 		grid-row: 1 / 1;
 		margin: 0;
 		padding: 0;
-	}
-
-	#options-modal #subtitle {
-		margin: 0;
-		margin-top: 24px;
-	}
-
-	#chosen-bands {
-		display: block;
-		align-items: center;
-	}
-
-	#chosen-bands label {
-		display: block;
-		width: fit-content;
-		height: 12px;
-		vertical-align: middle;
-		padding-bottom: 14px;
-		margin: auto;
-		user-select: none;
-	}
-
-	#chosen-bands label input {
-		margin-right: 8px;
-		height: 16px;
 	}
 
 	@keyframes fadeIn{
@@ -160,4 +119,31 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
+	#grid-array {
+		display: grid;
+		padding: 0;
+		margin: 24px 0;
+		grid-template-columns: 100%;
+		grid-template-rows: repeat(13, 48px);
+		gap: 0px;
+		border: 4px solid white;
+	}
+
+	.res-row {
+		display: grid;
+		grid-template-columns: repeat(4, 25%);
+		grid-template-rows: 100%;
+		width: 100%;
+		height: 100%;
+		list-style-type: none;
+		border-bottom: 4px white solid;
+	}
+
+	.res-row div {
+		border-right: 3px white dashed;
+	}
+
+	.res-row div:last-child {
+		border-right: 0px;
+	}
 </style>

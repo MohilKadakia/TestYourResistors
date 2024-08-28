@@ -1,0 +1,61 @@
+---
+interface Props {
+	color: string;
+	colorName: string;
+	bandfigure?: string;
+	multiplier?: string;
+	tolerance?: string;
+}
+
+const { color, colorName, bandfigure, multiplier, tolerance } = Astro.props;
+---
+
+<li class="res-row">
+	<div id="color-holder"><div style=`background-color: ${color}` id="color" /><p>{colorName}</p></div>
+	<div>{bandfigure}</div>
+	<div>{multiplier}</div>
+	<div>{tolerance}</div>
+</li>
+
+<style>
+	.res-row {
+		display: grid;
+		grid-template-columns: repeat(4, 25%);
+		grid-template-rows: 100%;
+		width: 100%;
+		height: 100%;
+		list-style-type: none;
+		border-bottom: 3px white dashed;
+	}
+	.res-row div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		vertical-align: middle;
+		border-right: 3px white dashed;
+		height: 100%;
+	}
+
+	.res-row div:last-child {
+		border-right: 0px;
+	}
+
+	#color-holder {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		vertical-align: middle;
+	}
+
+	#color {
+		display: inline-block;
+		width: 24px;
+		height: 24px;
+		border: 2px white solid;
+		margin-right: 12px;
+	}
+
+	#color-holder p {
+		width: 58px;
+	}
+</style>
